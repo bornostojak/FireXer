@@ -1,0 +1,417 @@
+﻿using System;
+using System.Collections.Generic;
+using System.ComponentModel;
+using System.ComponentModel.Design;
+using System.Drawing;
+using System.Data;
+using System.Linq;
+using System.Runtime.CompilerServices;
+using System.Text;
+using System.Threading.Tasks;
+using System.Windows.Forms;
+
+namespace ExtraNoveListe
+{
+    public partial class SongView : UserControl
+    {
+        /////////////////////////////////////////////////////////////////////////////////////////////////
+        ///////////////////////////////////////    STATIC VARS    ///////////////////////////////////////
+        /////////////////////////////////////////////////////////////////////////////////////////////////
+        
+        public static SongView lastSelected { get; set; }
+        public static bool checked_flag = false;
+        private static bool _allVisibel = false;
+        public static bool AllVisible { get { return _allVisibel; } }
+        private static List<SongView> _allSongViews = new List<SongView>();
+        public static List<SongView> SongViewList { get { return _allSongViews; } }
+        private static List<int> _selectedIndices = new List<int>();
+        public static List<int> SelectedIndices { get { return _selectedIndices; } set { _selectedIndices = value; } }
+        private static FirePlayList currentListImplemented = null;
+        public static FirePlayList CurrentListImplemented { get { return currentListImplemented; } }
+        public static List<int> LastRemoved = new List<int>();
+
+        //////////////////////////////////////////////////////////////////////////////////////////
+        ///////////////////////////////////////    VARS    ///////////////////////////////////////
+        //////////////////////////////////////////////////////////////////////////////////////////
+
+        public FirePlaySong Song { get { return _song; } }
+
+        private bool IsSW { get { return _isSW; } }
+
+        private int _index;
+        public int Index
+        {
+            get { return _index; }
+            set
+            {
+                _index = value;
+                UserControl.Location = new Point(0, 41 * value); 
+            }
+        }
+        private string _name;
+        public string GetName { get { return _name; } }
+        private string _time_info;
+        public string TimeInfo { get { return _time_info; } }
+        private FirePlaySong _song;
+        private bool _isSW = false;
+
+        /// <summary>
+        /// UserControl for given SongView
+        /// </summary>
+        public UserControl UserControl { get; set; }
+
+        /////////////////////////////////////////////////////////////////////////////////////////////////
+        ///////////////////////////////////////    CONSTRUCTOR    ///////////////////////////////////////
+        /////////////////////////////////////////////////////////////////////////////////////////////////
+
+        public SongView(FirePlaySong song)
+        {
+            InitializeComponent();
+            checkbox_selected.Visible = false;
+            _allSongViews.Add(this);
+            if (!_allVisibel) this.Hide();
+            else if (_allVisibel) this.Show();
+
+            //this.Index = _allSongViews.Count != 0 ? _allSongViews.Count - 1 : 0;
+            this._name = song.Naziv + " - " + song.Autor;
+            string timee = string.Empty;
+            try
+            {
+                 timee = new String(song.Vrijeme.ToArray(), song.Vrijeme.IndexOf("T") + 1, song.Vrijeme.ToArray().Length - song.Vrijeme.IndexOf("T") - 1);
+            }
+            catch
+            {
+                timee = "0";
+            }
+            
+            if(timee.Contains(".")) timee = new String(timee.ToArray(), 0, new String(song.Vrijeme.ToArray(), song.Vrijeme.IndexOf("T") + 1, song.Vrijeme.ToArray().Length - song.Vrijeme.IndexOf("T") - 1).IndexOf(".") + 4);
+            else if(!timee.Contains(".")) timee = new String(timee.ToArray(), 0, 8);
+
+            try
+            {
+                this._time_info = $"{ FPTime.Duration(song.EndCue).DurationString}  @{ timee }";
+            }
+            catch
+            {
+                this._time_info = "0";
+            }
+            this._song = song;
+
+            this.song_info.Text = _name.Length > 40 ? new String(_name.ToArray(), 0, 30) + "..." : _name;
+            this.song_time_info.Text = _time_info;
+
+            //this.MouseClick += (t, e) => this.checkbox_selected.Checked = !this.checkbox_selected.Checked;
+
+            if (_isSW) this.BackColor = SongViewColor.Sweeper;
+            else this.BackColor = SongViewColor.Song;
+
+            this.MouseClick += Selector;
+            KeyPress += OnKeyPressed;
+            KeyDown += OnKeyDown;
+
+            this.UserControl = (System.Windows.Forms.UserControl)this;
+        }
+
+        ///////////////////////////////////////////////////////////////////////////////////////////////
+        ////////////////////////////////////////    METHODS    ////////////////////////////////////////
+        ///////////////////////////////////////////////////////////////////////////////////////////////
+
+        private void OnKeyDown(object sender, KeyEventArgs e)
+        {
+            if (e.KeyCode == Keys.Delete && _selectedIndices.Count > 0) _allSongViews[0].Remove();
+        }
+
+        private void OnKeyPressed(object sender, KeyPressEventArgs e)
+        {
+            if (e.KeyChar == 'A' && ModifierKeys.HasFlag(Keys.Control))
+                _allSongViews.ForEach((x) => x.checkbox_selected.Checked = true);
+        }
+
+        private void Selector(object sender, MouseEventArgs e)
+        {
+            if (ModifierKeys.HasFlag(Keys.Control)) this.checkbox_selected.Checked = !this.checkbox_selected.Checked;
+            else
+            {
+                _allSongViews.ForEach((x) =>
+                {
+                    if (_selectedIndices.Contains(x.Index)) x.checkbox_selected.Checked = false;
+                }); 
+                _selectedIndices = new List<int>();
+                this.checkbox_selected.Checked = !this.checkbox_selected.Checked;
+            }
+        }
+
+
+        /////////////////////////////////////////////// CONTROLS IN THE SONGVIEW WINDOW ///////////////////////////////////////////////
+        private void linkLabel1_LinkClicked(object sender, LinkLabelLinkClickedEventArgs e)
+        {
+            RemoveSong();
+            //Pocko();
+        }
+
+        public void Pocko()
+        {
+            _selectedIndices.OrderByDescending((x) => x).ToList().ForEach((t) => _allSongViews.RemoveAt(t));
+            _selectedIndices = new List<int>();
+
+        }
+
+        private void checkbox_selected_CheckedChanged(object sender, EventArgs e)
+        {
+            if (!checked_flag)
+            {
+                if (ModifierKeys.HasFlag(Keys.Shift))
+                {
+                    checked_flag = true;
+                    if (lastSelected.Index < this.Index) SongViewList.Where((x) => x.Index >= lastSelected.Index && x.Index <= this.Index).ToList().ForEach((b) => b.checkbox_selected.Checked = this.checkbox_selected.Checked);
+                    else if (lastSelected.Index > this.Index) SongViewList.Where((x) => x.Index <= lastSelected.Index && x.Index >= this.Index).ToList().ForEach((b) => b.checkbox_selected.Checked = this.checkbox_selected.Checked);
+                    UpdateChecked();
+                    checked_flag = false;
+                }
+                lastSelected = this;
+                if (!_selectedIndices.Contains(this.Index)) _selectedIndices.Add(this.Index);
+                _selectedIndices.Sort();
+                OnSongViewChecked();
+            }
+            UpdateSelectedindicesParallel();
+            this.BackColor = this.checkbox_selected.Checked ? SongViewColor.SongChecked : SongViewColor.Song;
+        }
+        private void SongView_Load(object sender, EventArgs e)
+        {
+
+        }
+        /////////////////////////////////////////////// CONTROLS IN THE SONGVIEW WINDOW ///////////////////////////////////////////////
+
+
+        /// <summary>
+        /// Hides all parametars
+        /// </summary>
+        public static void HideAll()
+        { 
+            if (_allVisibel)
+            {
+                _allVisibel = false;
+                _allSongViews.ForEach((sv) => sv.Hide());
+            }
+        }
+        /// <summary>
+        /// Shows all parametars
+        /// </summary>
+        public static void ShowAll()
+        {
+            if (!_allVisibel)
+            {
+                _allVisibel = true;
+                _allSongViews.ForEach((sv) => sv.Show());
+            }
+        }
+
+        public static void CreateSongViewFromList(FirePlayList list)
+        {
+            CreateNewList(list);
+            if (!(list == currentListImplemented) && currentListImplemented != null)
+            {
+                currentListImplemented.ListChanged -= OnListChanged;
+                currentListImplemented = list;
+                currentListImplemented.ListChanged += OnListChanged;
+            }
+            if(currentListImplemented == null)
+            {
+                currentListImplemented = list;
+                currentListImplemented.ListChanged += OnListChanged;
+            }
+        }
+
+        internal static void SelectAll()
+        {
+            _allSongViews.ForEach((i) =>
+            {
+                if (_selectedIndices.Count == _allSongViews.Count) _selectedIndices = new List<int>();
+                else
+                {
+                    if (_selectedIndices.Contains(i.Index)) _selectedIndices.Add(i.Index);
+                }
+                UpdateChecked();
+            });
+        }
+
+        /// <summary>
+        /// Creates a new SongView based on all songs from the implemented list
+        /// </summary>
+        /// <param name="list"></param>
+        private static void CreateNewList(FirePlayList list)
+        {
+            _allSongViews = new List<SongView>();
+            list.Songs.ForEach((x) => new SongView(x));
+        }
+
+        /// <summary>
+        /// Updates all the changed indices: selected indices & songview indices (Raises SongViewChange event)
+        /// </summary>
+        public static void UpdateSongView()
+        {
+            for (int i = 0; i < _allSongViews.Count; i++)
+            {
+                _allSongViews[i].Index = i;  //Goes through all SongViews and updates their Index
+                _allSongViews[i].UserControl.Location = new Point(0, 41*i);
+            }
+            UpdateSelectedindicesParallel();
+            //OnSongViewChanged();
+        }
+
+
+        /// <summary>
+        /// Updates selected incices in Parallel
+        /// </summary>
+        public static void UpdateSelectedindicesParallel()
+        {
+            Task.Run(() =>
+            {
+                _selectedIndices = new List<int>();
+                _allSongViews.ForEach((i) => { if (i.checkbox_selected.Checked) _selectedIndices.Add(i.Index); });
+                _selectedIndices.Sort();
+            });
+        }
+
+        /// <summary>
+        /// Updates selected incices in Parallel
+        /// </summary>
+        public static void UpdateSelectedindices()
+        {
+            _selectedIndices = new List<int>();
+            _allSongViews.ForEach((i) => { if (i.checkbox_selected.Checked) _selectedIndices.Add(i.Index); });
+            _selectedIndices.Sort();
+        }
+
+        
+        
+        
+        public static void UpdateCheckedByIndices()
+        {
+            _selectedIndices.ForEach((x) => SongViewList.Where((y) => _selectedIndices.Contains(y.Index)).ToList().ForEach((z) => z.checkbox_selected.Checked = true));
+        }
+        
+
+        private static void OnListChanged(FirePlayList sender, EventArgs e)
+        {
+            //CreateSongViewFromList((FirePlayList)sender);
+            //if (currentListImplemented.Songs.Count != _allSongViews.Count) OnSongViewChanged();
+            UpdateSongView();
+            OnSongViewChanged();
+        }
+
+        public static void Delete()
+        {
+            if (_selectedIndices.Count != 0) SongView.SongViewList.ToArray()[_selectedIndices.ToArray()[0]].RemoveSong();    
+            
+        }
+
+        //////////////////////////////////////////////////////   EVENTS   //////////////////////////////////////////////////////
+
+        public  delegate void SongViewChangedEventHandler(FirePlayList list, EventArgs e);
+        public static event SongViewChangedEventHandler SongViewChanged;
+        protected static void OnSongViewChanged(EventArgs e)
+        {
+            if (SongViewChanged != null) SongViewChanged(currentListImplemented, e);
+            UpdateChecked();
+        }
+        protected static void OnSongViewChanged()
+        {
+            if (SongViewChanged != null) SongViewChanged(currentListImplemented, new EventArgs());
+        }
+
+        public delegate void SongInSongViewChangedEventHandler(SongView sender, SongChangeEventArgs e);
+        public static event SongInSongViewChangedEventHandler SongInSongViewChanged;
+        public static void OnSongInSongViewChanged(SongView sender, ChangeMade change)
+        {
+            if (SongInSongViewChanged != null) SongInSongViewChanged(sender, new SongChangeEventArgs(change));
+        }
+        
+        public event EventHandler SongViewChecked;
+        protected virtual void OnSongViewChecked()
+        {
+            if (SongViewChecked != null) SongViewChecked(this, new EventArgs());
+        }
+
+        //////////////////////////////////////////////////////   EVENTS   //////////////////////////////////////////////////////
+
+        /// <summary>
+        /// Moves all selected Songs in SongView Down
+        /// </summary>
+        public static void MoveCheckedDown()
+        {
+            if (_selectedIndices.Contains(_allSongViews.Count - 1)) return;
+            List<int> temp = _selectedIndices.OrderByDescending((x) => x).ToList();
+
+            temp.ForEach((i) =>
+            {
+                currentListImplemented.MoveSongsDown(i, 1);
+            });
+            //UpdateSongView();
+
+        }
+        public static void MoveCheckedUp()
+        {
+            if (_selectedIndices.First() == 0) return;
+            List<int> temp = _selectedIndices.OrderBy((x) => x).ToList();
+            temp.ForEach((i) =>
+            {
+                currentListImplemented.MoveSongsUp(i, 1);
+            });
+            //UpdateSongView();
+        }
+
+        /// <summary>
+        /// Moves all selected Songs in SongView Up
+        /// </summary>
+        public static void UpdateChecked()
+        {
+            _allSongViews.Where((g) => g.checkbox_selected.Checked == true).ToList().ForEach((c) => { if (!_selectedIndices.Contains(c.Index)) _selectedIndices.Add(c.Index); });
+            _allSongViews.Select((x) => x.checkbox_selected.Checked = _selectedIndices.Contains(x.Index) ? true : false);
+            _allSongViews.Select((sv) => sv.BackColor = sv.checkbox_selected.Checked ? SongViewColor.SongChecked : SongViewColor.Song);
+            _selectedIndices.Sort();
+            //UpdateSelectedindicesParallel();
+        }
+
+        public static void RemoveSelected()
+        {
+            LastRemoved = new List<int>();
+            LastRemoved.AddRange(_selectedIndices);
+            _allSongViews.Where((x) => _selectedIndices.Contains(x.Index)).ToList().ForEach((x) => _allSongViews.Remove(x));
+            currentListImplemented.RemoveMany(_selectedIndices);
+        }
+
+        public void RemoveSong()
+        {
+            if(_selectedIndices.Contains(this.Index)) 
+            {
+                RemoveSelected();
+                return;
+            }
+            else 
+            {
+                LastRemoved = new List<int>();
+                LastRemoved.Add(this.Index);
+                _allSongViews.Remove(this);
+                currentListImplemented.RemoveAt(this.Index);
+                return;
+            }
+        }
+
+        public static void RemoveAt(int index)
+        {
+            currentListImplemented.ExtractAt(index);
+            //OnSongViewChanged();
+        }
+
+        public void Remove()
+        {
+            if (this.Index >= 0 && this.Index < currentListImplemented.Songs.Count) SongView.RemoveAt(this.Index);
+        }
+        
+        private void RemoveSong(object sender, EventArgs e)
+        {
+            this.RemoveSong();
+        }
+    }
+}
