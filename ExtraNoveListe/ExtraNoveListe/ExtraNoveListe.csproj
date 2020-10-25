@@ -67,36 +67,51 @@
     <Compile Include="Clipboard.cs" />
     <Compile Include="Commands.cs" />
     <Compile Include="ExportClass.cs" />
-    <Compile Include="ExportWindow.cs">
+    <Compile Include="FirePlayDataStructures\IFirePlaySong.cs" />
+    <Compile Include="FirePlayDataStructures\IFirePlayTime.cs" />
+    <Compile Include="UserControls\ISongView.cs" />
+    <Compile Include="Windows\ExportWindow.cs">
       <SubType>Form</SubType>
     </Compile>
-    <Compile Include="ExportWindow.Designer.cs">
+    <Compile Include="Windows\ExportWindow.Designer.cs">
       <DependentUpon>ExportWindow.cs</DependentUpon>
     </Compile>
-    <Compile Include="FirePlayList.cs" />
-    <Compile Include="FirePlaySong.cs" />
+    <Compile Include="FileTypeException.cs" />
+    <Compile Include="FirePlayDataStructures\FirePlayList.cs" />
+    <Compile Include="FirePlayDataStructures\FirePlaySong.cs" />
+    <Compile Include="FirePlayDataStructures\IFirePlayList.cs" />
     <Compile Include="HSLColor.cs" />
-    <Compile Include="PlayAduio.cs" />
-    <Compile Include="QuickSweeper.cs">
+    <Compile Include="PlayAudio\IPlayAudio.cs" />
+    <Compile Include="PlayAudio\PlayAduio - Copy.cs" />
+    <Compile Include="PlayAudio\PlayAduio.cs" />
+    <Compile Include="PlayAudioUpdatePositionEventArgs.cs" />
+    <Compile Include="ProgressReportModel.cs" />
+    <Compile Include="Windows\QuickSweeper.cs">
       <SubType>Form</SubType>
     </Compile>
-    <Compile Include="QuickSweeper.Designer.cs">
+    <Compile Include="Windows\QuickSweeper.Designer.cs">
       <DependentUpon>QuickSweeper.cs</DependentUpon>
     </Compile>
-    <Compile Include="QuickSweeper.Designer.Designer.cs">
+    <Compile Include="Windows\QuickSweeper.Designer.Designer.cs">
       <DependentUpon>QuickSweeper.Designer.cs</DependentUpon>
     </Compile>
-    <Compile Include="StartingWindowForm.cs">
+    <Compile Include="UserControls\SongViewSongProgressUC.cs">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Include="UserControls\SongViewSongProgressUC.Designer.cs">
+      <DependentUpon>SongViewSongProgressUC.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Windows\StartingWindowForm.cs">
       <SubType>Form</SubType>
     </Compile>
-    <Compile Include="StartingWindowForm.Designer.cs">
+    <Compile Include="Windows\StartingWindowForm.Designer.cs">
       <DependentUpon>StartingWindowForm.cs</DependentUpon>
     </Compile>
-    <Compile Include="FPTime.cs" />
-    <Compile Include="InfoForm.cs">
+    <Compile Include="FirePlayDataStructures\FPTime.cs" />
+    <Compile Include="Windows\InfoForm.cs">
       <SubType>Form</SubType>
     </Compile>
-    <Compile Include="InfoForm.Designer.cs">
+    <Compile Include="Windows\InfoForm.Designer.cs">
       <DependentUpon>InfoForm.cs</DependentUpon>
     </Compile>
     <Compile Include="ItemComparer.cs" />
@@ -106,40 +121,43 @@
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="RadioSWSettings.cs" />
     <Compile Include="SongChangeEventArgs.cs" />
-    <Compile Include="SongView.cs">
+    <Compile Include="UserControls\SongView.cs">
       <SubType>UserControl</SubType>
     </Compile>
-    <Compile Include="SongView.Designer.cs">
+    <Compile Include="UserControls\SongView.Designer.cs">
       <DependentUpon>SongView.cs</DependentUpon>
     </Compile>
     <Compile Include="SongViewColor.cs" />
     <Compile Include="SweaperSettingsClass.cs" />
-    <Compile Include="SweeperSelectSettings.cs">
+    <Compile Include="Windows\SweeperSelectSettings.cs">
       <SubType>Form</SubType>
     </Compile>
-    <Compile Include="SweeperSelectSettings.Designer.cs">
+    <Compile Include="Windows\SweeperSelectSettings.Designer.cs">
       <DependentUpon>SweeperSelectSettings.cs</DependentUpon>
     </Compile>
-    <Compile Include="Sweeper_Form.cs">
+    <Compile Include="Windows\Sweeper_Form.cs">
       <SubType>Form</SubType>
     </Compile>
-    <Compile Include="Sweeper_Form.Designer.cs">
+    <Compile Include="Windows\Sweeper_Form.Designer.cs">
       <DependentUpon>Sweeper_Form.cs</DependentUpon>
     </Compile>
     <Compile Include="WindowColors.cs" />
-    <Compile Include="WinNoForm.cs">
+    <Compile Include="Windows\WinNoForm.cs">
       <SubType>Form</SubType>
     </Compile>
-    <Compile Include="WinNoForm.Designer.cs">
+    <Compile Include="Windows\WinNoForm.Designer.cs">
       <DependentUpon>WinNoForm.cs</DependentUpon>
     </Compile>
-    <EmbeddedResource Include="ExportWindow.resx">
+    <EmbeddedResource Include="Windows\ExportWindow.resx">
       <DependentUpon>ExportWindow.cs</DependentUpon>
     </EmbeddedResource>
-    <EmbeddedResource Include="StartingWindowForm.resx">
+    <EmbeddedResource Include="UserControls\SongViewSongProgressUC.resx">
+      <DependentUpon>SongViewSongProgressUC.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Windows\StartingWindowForm.resx">
       <DependentUpon>StartingWindowForm.cs</DependentUpon>
     </EmbeddedResource>
-    <EmbeddedResource Include="InfoForm.resx">
+    <EmbeddedResource Include="Windows\InfoForm.resx">
       <DependentUpon>InfoForm.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="Properties\Resources.resx">
@@ -151,16 +169,16 @@
       <AutoGen>True</AutoGen>
       <DependentUpon>Resources.resx</DependentUpon>
     </Compile>
-    <EmbeddedResource Include="SongView.resx">
+    <EmbeddedResource Include="UserControls\SongView.resx">
       <DependentUpon>SongView.cs</DependentUpon>
     </EmbeddedResource>
-    <EmbeddedResource Include="SweeperSelectSettings.resx">
+    <EmbeddedResource Include="Windows\SweeperSelectSettings.resx">
       <DependentUpon>SweeperSelectSettings.cs</DependentUpon>
     </EmbeddedResource>
-    <EmbeddedResource Include="Sweeper_Form.resx">
+    <EmbeddedResource Include="Windows\Sweeper_Form.resx">
       <DependentUpon>Sweeper_Form.cs</DependentUpon>
     </EmbeddedResource>
-    <EmbeddedResource Include="WinNoForm.resx">
+    <EmbeddedResource Include="Windows\WinNoForm.resx">
       <DependentUpon>WinNoForm.cs</DependentUpon>
     </EmbeddedResource>
     <None Include="packages.config" />
@@ -180,6 +198,7 @@
   <ItemGroup>
     <Content Include="icon.ico" />
   </ItemGroup>
+  <ItemGroup />
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
        Other similar extension points exist, see Microsoft.Common.targets.

@@ -1,0 +1,12 @@
+C:\Users\Borno\Documents\Visual Studio 2015\Projects\FireXer - Copy\ExtraNoveListe\FirePlayDataStructure\obj\Debug\FirePlayDataStructure.csprojAssemblyReference.cache
+C:\Users\Borno\Documents\Visual Studio 2015\Projects\FireXer - Copy\ExtraNoveListe\FirePlayDataStructure\obj\Debug\FirePlayDataStructure.csproj.CoreCompileInputs.cache
+C:\Users\Borno\Documents\Visual Studio 2015\Projects\FireXer - Copy\ExtraNoveListe\FirePlayDataStructure\bin\Debug\FirePlayDataStructure.dll
+C:\Users\Borno\Documents\Visual Studio 2015\Projects\FireXer - Copy\ExtraNoveListe\FirePlayDataStructure\bin\Debug\FirePlayDataStructure.pdb
+C:\Users\Borno\Documents\Visual Studio 2015\Projects\FireXer - Copy\ExtraNoveListe\FirePlayDataStructure\obj\Debug\FirePlayDataStructure.dll
+C:\Users\Borno\Documents\Visual Studio 2015\Projects\FireXer - Copy\ExtraNoveListe\FirePlayDataStructure\obj\Debug\FirePlayDataStructure.pdb
+D:\BACKUP HDD\Borno\Documents\Visual Studio 2015\Projects\FireXer - With FirePLayDataStructure Library\ExtraNoveListe\FirePlayDataStructure\bin\Debug\FirePlayDataStructure.dll
+D:\BACKUP HDD\Borno\Documents\Visual Studio 2015\Projects\FireXer - With FirePLayDataStructure Library\ExtraNoveListe\FirePlayDataStructure\bin\Debug\FirePlayDataStructure.pdb
+D:\BACKUP HDD\Borno\Documents\Visual Studio 2015\Projects\FireXer - With FirePLayDataStructure Library\ExtraNoveListe\FirePlayDataStructure\obj\Debug\FirePlayDataStructure.csprojAssemblyReference.cache
+D:\BACKUP HDD\Borno\Documents\Visual Studio 2015\Projects\FireXer - With FirePLayDataStructure Library\ExtraNoveListe\FirePlayDataStructure\obj\Debug\FirePlayDataStructure.csproj.CoreCompileInputs.cache
+D:\BACKUP HDD\Borno\Documents\Visual Studio 2015\Projects\FireXer - With FirePLayDataStructure Library\ExtraNoveListe\FirePlayDataStructure\obj\Debug\FirePlayDataStructure.dll
+D:\BACKUP HDD\Borno\Documents\Visual Studio 2015\Projects\FireXer - With FirePLayDataStructure Library\ExtraNoveListe\FirePlayDataStructure\obj\Debug\FirePlayDataStructure.pdb

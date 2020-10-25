@@ -42,6 +42,10 @@ namespace ExtraNoveListe
             } 
         }
         private FirePlayList _firePlayList ;
+        public async void SetFirePlayListAsync(FirePlayList list)
+        {
+            await Task.Run(() => FirePlayList = list);
+        }
 
         private Panel _panel;
         public Panel Panel
@@ -129,32 +133,39 @@ namespace ExtraNoveListe
             FirstControlIndex = FirstControlIndex;
         }
 
-        private void OnFirePlayListChange(object s, EventArgs e)
+        private async void OnFirePlayListChange(object s, EventArgs e)
         {
             Panel.Controls.Clear();
             int z = 0;
             FirePlayList.Songs.ForEach((song) =>
             {
-                Panel.Controls.Add(song.SongView.UserControl);
-                song.SongView.UserControl.Top = (SongView.Margin - 1) * z++;
+                Panel.Parent.Invoke(new MethodInvoker(delegate { 
+                    Panel.Controls.Add(song.SongView.UserControl);
+                    song.SongView.UserControl.Top = (SongView.Margin - 1) * z++;
+                }));
+                
+                
             });
 
-            UpdatePanel();
+            await UpdatePanel();
         }
 
-        public void UpdatePanel()
+        public async Task UpdatePanel()
         {
-            Task.Run(() =>
+            await Task.Run(() =>
             {
                 this.Context.Post(new SendOrPostCallback((s) =>
                 {
-                    for (int j = 0; j < FirstControlIndex; j++) FirePlayList.Songs[j].SongView.UserControl.Hide();
-
-                    int z = 0;
-                    for (int i = FirstControlIndex; i < FirePlayList.Songs.Count && z < MaxCapacity + 1; i++)
+                    if (FirePlayList.Songs.Count > 0)
                     {
-                        Panel.Controls[i].Top = (SongView.Margin - 1) * z++;
-                        Panel.Controls[i].Show(); 
+                        for (int j = 0; j < FirstControlIndex; j++) FirePlayList.Songs[j].SongView.UserControl.Hide();
+
+                        int z = 0;
+                        for (int i = FirstControlIndex; i < FirePlayList.Songs.Count && z < MaxCapacity + 1; i++)
+                        {
+                            Panel.Controls[i].Top = (SongView.Margin - 1) * z++;
+                            Panel.Controls[i].Show();
+                        }
                     }
                 }), null);
             });

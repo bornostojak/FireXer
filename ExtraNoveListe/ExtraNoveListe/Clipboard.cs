@@ -1,4 +1,4 @@
-﻿using System;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Net.Security;
@@ -38,7 +38,7 @@ namespace ExtraNoveListe
 
         public Clipboard()
         {
-            
+
         }
 
         public Clipboard(List<FirePlaySong> songs)
@@ -87,7 +87,7 @@ namespace ExtraNoveListe
         public void AddRange(FirePlaySong[] songs)
         {
             foreach (FirePlaySong s in songs)
-            { 
+            {
                 Songs.Add(s);
                 _counter++;
             }

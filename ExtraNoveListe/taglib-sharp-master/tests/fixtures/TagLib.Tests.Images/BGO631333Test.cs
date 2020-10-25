@@ -425,55 +425,9 @@ namespace TagLib.Tests.Images
 				node = node.GetChild (XmpTag.TIFF_NS, "software");
 				Assert.IsNotNull (node);
 				Assert.AreEqual ("Microsoft Windows Photo Gallery 6.0.6000.16386", node.Value);
-				Assert.AreEqual (XmpNodeType.Simple, node.Type);
-				Assert.AreEqual (0, node.Children.Count);
-			}
-			// Xmp.xmp.CreatorTool (XmpText/49) "Adobe Photoshop Elements for Windows, version 2.0"
-			{
-				var node = xmp.NodeTree;
-				node = node.GetChild (XmpTag.XAP_NS, "CreatorTool");
-				Assert.IsNotNull (node);
-				Assert.AreEqual ("Adobe Photoshop Elements for Windows, version 2.0", node.Value);
-				Assert.AreEqual (XmpNodeType.Simple, node.Type);
-				Assert.AreEqual (0, node.Children.Count);
-			}
-			// Xmp.xmp.creatortool (XmpText/46) "Microsoft Windows Photo Gallery 6.0.6000.16386"
-			{
-				var node = xmp.NodeTree;
-				node = node.GetChild (XmpTag.XAP_NS, "creatortool");
-				Assert.IsNotNull (node);
-				Assert.AreEqual ("Microsoft Windows Photo Gallery 6.0.6000.16386", node.Value);
-				Assert.AreEqual (XmpNodeType.Simple, node.Type);
-				Assert.AreEqual (0, node.Children.Count);
-			}
-			// Xmp.xmpMM.DocumentID (XmpText/58) "adobe:docid:photoshop:f48fd669-42b3-11de-a9a9-b4912218066d"
-			{
-				var node = xmp.NodeTree;
-				node = node.GetChild (XmpTag.XAP_MM_NS, "DocumentID");
-				Assert.IsNotNull (node);
-				Assert.AreEqual ("adobe:docid:photoshop:f48fd669-42b3-11de-a9a9-b4912218066d", node.Value);
-				Assert.AreEqual (XmpNodeType.Simple, node.Type);
-				Assert.AreEqual (0, node.Children.Count);
-			}
-			// Xmp.dc.subject (XmpBag/2) "TASI, 50v-juhlat"
-			{
-				var node = xmp.NodeTree;
-				node = node.GetChild (XmpTag.DC_NS, "subject");
-				Assert.IsNotNull (node);
-				Assert.AreEqual (XmpNodeType.Bag, node.Type);
-				Assert.AreEqual ("", node.Value);
-				Assert.AreEqual (2, node.Children.Count);
-				var children_array = new System.Collections.Generic.List<string> ();
-				foreach (var child in node.Children)
-				{
-					children_array.Add (child.Value);
-				}
-				Assert.IsTrue (children_array.Contains ("TASI"));
-				Assert.IsTrue (children_array.Contains ("50v-juhlat"));
-			}
-
-			//  ---------- End of XMP tests ----------
-
-		}
-	}
-}
+				Assert.AreEqualB . T i m e r R e s o l u t i o n                                                                   1 5 6 2 5 0  
+ B . P a g e S i z e                                                                                     4 0 9 6  
+ B . N u m b e r O f P h y s i c a l P a g e s                                                     2 0 7 8 8 1 2  
+ B . L o w e s t P h y s i c a l P a g e N u m b e r                                                           1  
+ B . H i g h e s t P h y s i c a l P a g e N u m b e r                                             2 4 8 6 2 7 1  
+                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                            

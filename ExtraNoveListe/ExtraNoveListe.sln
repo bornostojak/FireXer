@@ -1,9 +1,11 @@
 ﻿
 Microsoft Visual Studio Solution File, Format Version 12.00
-# Visual Studio 14
-VisualStudioVersion = 14.0.25420.1
+# Visual Studio 15
+VisualStudioVersion = 15.0.28010.2036
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ExtraNoveListe", "ExtraNoveListe\ExtraNoveListe.csproj", "{D51CE112-A1F8-4E15-AA32-6DB70FE1CDFF}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "FirePlayDataStructure", "FirePlayDataStructure\FirePlayDataStructure.csproj", "{F02156D8-AEEF-4B3A-B856-364359E0382B}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -15,8 +17,15 @@ Global
 		{D51CE112-A1F8-4E15-AA32-6DB70FE1CDFF}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{D51CE112-A1F8-4E15-AA32-6DB70FE1CDFF}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{D51CE112-A1F8-4E15-AA32-6DB70FE1CDFF}.Release|Any CPU.Build.0 = Release|Any CPU
+		{F02156D8-AEEF-4B3A-B856-364359E0382B}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{F02156D8-AEEF-4B3A-B856-364359E0382B}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{F02156D8-AEEF-4B3A-B856-364359E0382B}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{F02156D8-AEEF-4B3A-B856-364359E0382B}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(ExtensibilityGlobals) = postSolution
+		SolutionGuid = {5C395EAF-6EDD-44D6-940D-2BBE797DB181}
 	EndGlobalSection
 EndGlobal
